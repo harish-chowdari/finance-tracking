@@ -4,18 +4,18 @@ import "./Layout.css";
 import Sidebar from '../Components/Sidebar/Sidebar';
 import Navbar from '../Components/Navbar/Navbar';
 
-const SidebarLayout = () => {
+const Layout = () => {
   return (
     <div className="sidebar-layout">
-      <Sidebar /> {/* Sidebar on the left */}
+      <Sidebar /> 
       <div className="main-content">
-        <Navbar className="navbar" /> {/* Navbar at the top, beside the sidebar */}
+        <Navbar className="navbar" /> 
         <div className="content-area">
-          <Outlet /> {/* Main content area */}
+          <Outlet /> 
         </div>
       </div>
     </div>
   );
 };
 
-export default SidebarLayout;
+export default Layout;

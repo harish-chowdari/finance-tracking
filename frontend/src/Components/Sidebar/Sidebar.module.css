@@ -1,62 +1,56 @@
 .sidebar {
-    width: 200px;
-    height: 100vh;
-    background-color: #2c3e50;
-    color: white;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding-left: 20px;
-    position: fixed; /* Fix the sidebar position */
-    height: 100vh; /* Full height */
-    overflow-y: auto; 
-  }
-
-
-  .sidebar {
- /* Allow vertical scrolling if needed */
+  width: 200px;
+  height: 100vh;
+  background-color: #2c3e50;
+  color: white;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding-left: 20px;
+  position: fixed;
+  overflow-y: auto; 
+  transition: width 0.3s;
 }
-  
-  .financeSection {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px; /* Space below the finance section */
-  }
-  
-  .financeIcon {
-    font-size: 30px; /* Size of the finance icon */
-    margin-right: 10px; /* Space between icon and text */
-    color: #f39c12; /* Color for the icon */
-  }
-  
-  .financeText {
-    font-size: 24px; /* Size of the finance text */
-    margin: 0; /* Remove default margin */
-  }
-  
-  .link {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
-    margin-bottom: 10px;
-    transition: background 0.3s ease-in-out;
-  }
-  
-  .link:hover {
-    background-color: #34495e;
-    border-radius: 4px;
-  }
-  
-  .icon {
-    margin-right: 10px;
-    font-size: 20px;
-  }
-  
-  .sidebar a:hover {
-    color: #f39c12;
-  }
-  
+
+.financeSection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.financeIcon {
+  font-size: 30px;
+  margin-right: 10px;
+  color: #f39c12;
+}
+
+.financeText {
+  font-size: 24px;
+  margin: 0;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.link:hover {
+  background-color: #34495e;
+  border-radius: 4px;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.sidebar a:hover {
+  color: #f39c12;
+}

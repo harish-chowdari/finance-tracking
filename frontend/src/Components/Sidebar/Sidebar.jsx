@@ -7,13 +7,12 @@ const Sidebar = () => {
   const name = localStorage.getItem("name");
   return (
     <div className={Styles.sidebar}>
-      {/* Finance Section */}
+
       <div className={Styles.financeSection}>
         <FaDollarSign className={Styles.financeIcon} />
         <h2 className={Styles.financeText}>Finance</h2>
       </div>
       
-      {/* Links */}
       <Link to={`/finance/${name}/addexpenses`} className={Styles.link}>
         <FaMoneyBill className={Styles.icon} /> Add Expenses
       </Link>

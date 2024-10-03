@@ -5,7 +5,7 @@ import Signup from "./Pages/Signup/Signup";
 import PasswordReset from "./Pages/PasswordReset/PasswordReset";
 import AddExpenses from "./Pages/AddExpenses/AddExpenses";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import Layout from "./Layout/Layout"; // assuming this is the layout with the sidebar
+import Layout from "./Layout/Layout"; 
 import Home from "./Pages/Home/Home";
 
 const App = () => {
@@ -17,7 +17,6 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/reset" element={<PasswordReset />} />
 
-          {/* Routes that share SidebarLayout */}
           <Route path="/finance/:userName" element={<Layout />}>
             <Route index  element={<Home />} />
             <Route path="addexpenses" element={<AddExpenses />} />

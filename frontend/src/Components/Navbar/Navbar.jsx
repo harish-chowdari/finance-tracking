@@ -1,9 +1,14 @@
 import React from 'react';
-import { FaUserCircle } from 'react-icons/fa'; // Import user icon
+import { FaUserCircle } from 'react-icons/fa';
 import Styles from './Navbar.module.css';
 
 const Navbar = () => {
-  const name = localStorage.getItem("name"); // Get the user's name from local storage
+  const name = localStorage.getItem("name");
+
+  const handleLogout = () => {
+    localStorage.removeItem("name");
+    window.location.href = '/';
+  };
 
   return (
     <div className={Styles.navbar}>
@@ -11,6 +16,7 @@ const Navbar = () => {
       <div className={Styles.userSection}>
         <FaUserCircle className={Styles.userIcon} />
         <span className={Styles.userName}>{name}</span>
+        <button className={Styles.logoutButton} onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );
