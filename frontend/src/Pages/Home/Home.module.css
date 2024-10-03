@@ -1,0 +1,67 @@
+.home {
+    padding: 20px;
+    background-color: #f5f5f5; /* Light background for contrast */
+  }
+  
+  .home-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+  
+  .summary-item {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1; /* Allow the items to grow */
+    margin: 0 10px; /* Space between items */
+  }
+  
+  .amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2ecc71; /* Green color for amounts */
+  }
+  
+  .quick-links {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .link {
+    margin: 10px 0; /* Space between buttons */
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db; /* Blue color for buttons */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+  }
+  
+  .chart {
+    text-align: center;
+  }
+  
+  .chart-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #e0e0e0; /* Light gray for chart placeholder */
+    border-radius: 8px;
+  }
+  

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "../../axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css"; 
-import { ToastContainer, toast, Slide, Zoom, Bounce, Flip } from "react-toastify"; 
+import { ToastContainer, toast, Flip } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css"; 
 
 const Login = () => {
@@ -34,12 +34,11 @@ const Login = () => {
       } else if (res.data.Incorrect) {
         toast.error(res.data.Incorrect, toastOptions);
       } else {
-        const userId = res.data._id; 
         toast.success("Login successful!", toastOptions);
-        
+        localStorage.setItem("name", res.data.name);
         setTimeout(() => {
-          navigate(`/home/${userId}`);
-        }, 2500);
+          navigate(`/finance/${res.data.name}`);
+        }, 1000);
       }
     } catch (error) {
       console.log(error);

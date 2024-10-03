@@ -1,0 +1,28 @@
+.sidebar-layout {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding-left: 220px; /* Push the main content to the right of the sidebar */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full height */
+  }
+  
+  .navbar {
+    background-color: #34495e; /* Navbar color */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+  }
+  
+  .content-area {
+    flex: 1; /* Content area takes up remaining space */
+    padding: 20px;
+    background-color: #f9f9f9; /* Optional: background color */
+    overflow-y: auto; /* Add scrolling if content overflows */
+  }
+  

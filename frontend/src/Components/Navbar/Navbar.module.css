@@ -1,0 +1,31 @@
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Space between logo and user section */
+    align-items: center; /* Center items vertically */
+    background-color: #34495e; /* Navbar background color */
+    color: white;
+    padding: 10px 20px; /* Padding for the navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  }
+  
+  .logo {
+    font-size: 24px; /* Size of the logo text */
+    font-weight: bold; /* Make logo text bold */
+  }
+  
+  .userSection {
+    display: flex;
+    align-items: center; /* Center items vertically */
+  }
+  
+  .userIcon {
+    font-size: 24px; /* Size of the user icon */
+    margin-right: 10px; /* Space between icon and username */
+    color: #f39c12; /* Color for the icon */
+  }
+  
+  .userName {
+    font-size: 18px; /* Size of the username */
+    font-weight: 500; /* Make username slightly bold */
+  }
+  
