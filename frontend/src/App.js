@@ -5,10 +5,12 @@ import Signup from "./Pages/Signup/Signup";
 import PasswordReset from "./Pages/PasswordReset/PasswordReset";
 import AddExpenses from "./Pages/AddExpenses/AddExpenses";
 import Dashboard from "./Pages/Dashboard/Dashboard";
-import Layout from "./Layout/Layout"; 
+import Layout from "./Layout/Layout";
 import Home from "./Pages/Home/Home";
 
 const App = () => {
+
+  
   return (
     <div>
       <BrowserRouter>
@@ -18,10 +20,11 @@ const App = () => {
           <Route path="/reset" element={<PasswordReset />} />
 
           <Route path="/finance/:userName" element={<Layout />}>
-            <Route index  element={<Home />} />
+            <Route index element={<Home />} />
             <Route path="addexpenses" element={<AddExpenses />} />
             <Route path="dashboard" element={<Dashboard />} />
           </Route>
+
         </Routes>
       </BrowserRouter>
     </div>

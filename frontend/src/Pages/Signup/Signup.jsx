@@ -10,21 +10,19 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    colourBlind: [],
+    confirmPassword: "",
+    diseases: [],
   });
+
+  const [avoid, setAvoid] = useState([]); 
+  const [use, setUse] = useState([]); 
   const navigate = useNavigate();
 
-  const colorOptions = [
-    "Red",
-    "Green",
-    "Blue",
-    "Yellow",
-    "Brown",
-    "Purple",
-    "Pink",
-    "Orange",
-    "Gray",
-    "Cyan",
+  const optionNumbers = [
+    "deuteranopia",
+    "protanopia",
+    "tritanopia",
+    "monochromacy",
   ];
 
   const handleChange = (e) => {
@@ -34,43 +32,71 @@ const Signup = () => {
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
+    let newDiseases = [...signup.diseases];
+
     if (checked) {
-      setSignup((prevState) => ({
-        ...prevState,
-        colourBlind: [...prevState.colourBlind, value],
-      }));
+      newDiseases = [...newDiseases, value];
     } else {
-      setSignup((prevState) => ({
-        ...prevState,
-        colourBlind: prevState.colourBlind.filter((color) => color !== value),
-      }));
+      newDiseases = newDiseases.filter((option) => option !== value);
     }
+
+    setSignup((prevState) => ({
+      ...prevState,
+      diseases: newDiseases,
+    }));
+
+    let newAvoid = [];
+    let newUse = [];
+
+    if (
+      newDiseases.includes("deuteranopia") ||
+      newDiseases.includes("protanopia")
+    ) {
+      newAvoid = ["red", "green", "brown", "orange"];
+      newUse = ["blue", "yellow", "purple", "gray"];
+    }
+    if (newDiseases.includes("tritanopia")) {
+      newAvoid = ["blue", "yellow", "green"];
+      newUse = ["red", "pink", "gray", "black"];
+    }
+    if (newDiseases.includes("monochromacy")) {
+      newAvoid = ["all colors"];
+      newUse = ["black", "white", "gray"];
+    }
+
+    setAvoid(newAvoid);
+    setUse(newUse);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const toastOptions = {
+    const toastdiseases = {
       position: "top-center",
       autoClose: 5000,
-      transition: Flip, 
+      transition: Flip,
     };
+
+    if (signup.password !== signup.confirmPassword) {
+      toast.dismiss();
+      toast.error("Passwords do not match", toastdiseases);
+      return;
+    }
 
     try {
       const res = await axios.post("/signup", { ...signup });
-      toast.dismiss()
-      
-      if (res.data.EnterAllDetails) {
-        toast.error(res.data.EnterAllDetails, toastOptions);
-      } else if (res.data.AlreadyExist) {
-        toast.error(res.data.AlreadyExist, toastOptions);
-      } else {
-        const userId = res.data._id;
-        toast.success("Signup successful! Redirecting...");
+      toast.dismiss();
 
+      if (res.data.EnterAllDetails) {
+        toast.error(res.data.EnterAllDetails, toastdiseases);
+      } else if (res.data.AlreadyExist) {
+        toast.error(res.data.AlreadyExist, toastdiseases);
+      } else {
+        toast.success("Signup successful! Redirecting...");
+        localStorage.setItem("name", res.data.name);
         setTimeout(() => {
-          navigate(`/schedule/${userId}`);
-        }, 2500); 
+          navigate(`/finance/${res.data.name}`);
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
@@ -91,7 +117,6 @@ const Signup = () => {
             onChange={handleChange}
             value={signup.name}
             className={styles.input}
-            
           />
         </div>
         <div>
@@ -102,7 +127,6 @@ const Signup = () => {
             onChange={handleChange}
             value={signup.email}
             className={styles.input}
-            
           />
         </div>
         <div>
@@ -113,23 +137,33 @@ const Signup = () => {
             onChange={handleChange}
             value={signup.password}
             className={styles.input}
-            
           />
         </div>
 
         <div>
-          <h4 className={styles.colorHeading}>Select Color Blindness</h4>
+          <input
+            placeholder="Confirm Your Password"
+            type="password"
+            name="confirmPassword"
+            onChange={handleChange}
+            value={signup.confirmPassword}
+            className={styles.input}
+          />
+        </div>
+
+        <div>
+          <h4 className={styles.colorHeading}>Select diseases</h4>
           <div className={styles.colorDiv}>
-            {colorOptions.map((color) => (
-              <label key={color} className={styles.checkboxLabel}>
+            {optionNumbers.map((option) => (
+              <label key={option} className={styles.checkboxLabel}>
                 <input
                   type="checkbox"
-                  name="colourBlind"
-                  value={color}
+                  name="diseases"
+                  value={option}
                   onChange={handleCheckboxChange}
-                  checked={signup.colourBlind.includes(color)}
+                  checked={signup.diseases.includes(option)}
                 />
-                <p className={styles.color}>{color}</p>
+                <p className={styles.color}>{option}</p>
               </label>
             ))}
           </div>

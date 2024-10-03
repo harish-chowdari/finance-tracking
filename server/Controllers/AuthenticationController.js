@@ -4,7 +4,7 @@ const Schema = require("../Models/AuthenticationModel.js");
 
 async function SigUp(req, res) {
   try {
-    const { name, email, password, colourBlind } = req.body;
+    const { name, email, password, diseases } = req.body;
 
     const isUserExist = await Schema.findOne({ email: email });
 
@@ -16,11 +16,33 @@ async function SigUp(req, res) {
       return res.status(200).json({ EnterAllDetails: "Please fill all the fields" });
     }
 
+    const processedDiseases = diseases.map((disease) => {
+      let avoid = [], use = [];
+
+      if (disease === "deuteranopia") {
+        avoid = ["red", "green", "brown", "orange"];
+        use = ["blue", "yellow", "purple", "gray"];
+      } else if (disease === "protanopia") {
+        avoid = ["red", "green", "brown", "orange"];
+        use = ["blue", "yellow", "purple", "gray"];
+      }
+
+      else if (disease === "tritanopia") {
+        avoid = ["blue", "yellow", "green"];
+        use = ["red", "pink", "gray", "black"];
+      } else if (disease === "monochromacy") {
+        avoid = ["all colors"];
+        use = ["black", "white", "gray"];
+      }
+
+      return { disease, avoid, use };
+    });
+
     const data = new Schema({
       name,
       email,
       password,
-      colourBlind,
+      diseases: processedDiseases, 
       otp: "",
       otpExpiresAt: "",
     });
@@ -31,6 +53,7 @@ async function SigUp(req, res) {
     console.log(error);
   }
 }
+
 
 
 async function Login(req, res) {
