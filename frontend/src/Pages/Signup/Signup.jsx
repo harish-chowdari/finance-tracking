@@ -89,9 +89,13 @@ const Signup = () => {
 
       if (res.data.EnterAllDetails) {
         toast.error(res.data.EnterAllDetails, toastdiseases);
+        return
       } else if (res.data.AlreadyExist) {
         toast.error(res.data.AlreadyExist, toastdiseases);
-      } else {
+        return
+      }
+      
+      else {
         toast.success("Signup successful! Redirecting...");
         localStorage.setItem("name", res.data.name);
         setTimeout(() => {

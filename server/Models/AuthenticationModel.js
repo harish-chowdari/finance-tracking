@@ -1,28 +1,40 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+  {
     name: {
-        type: String
+      type: String,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
-        type: String
+      type: String,
     },
-    diseases: [{
-        disease: { type: String }, // Stores the disease name
-        avoid: { type: [String] },  // Array of colors to avoid
-        use: { type: [String] }
-    }],
+    diseases: [
+      {
+        disease: { type: String },
+        avoid: { type: [String] },
+        use: { type: [String] },
+      },
+    ],
     otp: {
-        type: String 
+      type: String,
     },
     otpExpiresAt: {
-        type: Date
-    }
-}, {timestamps: true});
+      type: Date,
+    },
+    expenses: [
+      {
+        category: { type: String },
+        amount: { type: Number },
+        date: { type: Date },
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("User", UserSchema);

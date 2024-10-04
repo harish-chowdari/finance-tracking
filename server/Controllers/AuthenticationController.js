@@ -12,13 +12,13 @@ async function SigUp(req, res) {
       return res.status(200).json({ AlreadyExist: "Account already exists" });
     }
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || diseases.length === 0) {
       return res.status(200).json({ EnterAllDetails: "Please fill all the fields" });
     }
 
     const processedDiseases = diseases.map((disease) => {
       let avoid = [], use = [];
-
+ 
       if (disease === "deuteranopia") {
         avoid = ["red", "green", "brown", "orange"];
         use = ["blue", "yellow", "purple", "gray"];
