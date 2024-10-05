@@ -9,6 +9,7 @@ import Layout from "./Layout/Layout";
 import Home from "./Pages/Home/Home";
 import ExpensesHistory from "./Pages/ExpensesHistory/ExpensesHistory";
 import Download from "./Pages/Download/Download";
+import Profile from "./Pages/Profile/Profile";
  
 const App = () => {
 
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="expenses-history" element={<ExpensesHistory />} />
             <Route path="download" element={<Download />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
 
         </Routes>

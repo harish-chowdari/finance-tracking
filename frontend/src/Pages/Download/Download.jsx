@@ -182,8 +182,8 @@ const Download = () => {
         </div>
       )}
 
-      <h1 className={Styles.title}>Expenses Summary</h1>
-      <table className={Styles.table}>
+      {selectedDate ? <h1 className={Styles.title}>Expenses Summary</h1> : <h1 className={Styles.title}>All Expenses</h1>
+      }<table className={Styles.table}>
         <thead className={Styles.thead}>
           <tr className={Styles.tr}>
             <th className={Styles.th}>Sl.No</th>

@@ -1,0 +1,75 @@
+.profile {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.profile:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.infoItem {
+    padding: 0px 10px;
+    border-radius: 8px; 
+    transition: background-color 0.3s; 
+}
+
+.infoItem:hover {
+    background-color: #f0f8ff; 
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+    height: 0px;
+    margin-bottom: 30px;
+}
+
+.value {
+    font-size: 18px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    padding: 8px;
+    transition: border 0.3s; 
+}
+
+.value:hover {
+    border: 1px solid #4a90e2; 
+}
+
+.loading {
+    text-align: center;
+    font-size: 20px;
+    color: #666;
+}

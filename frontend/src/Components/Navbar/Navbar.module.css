@@ -16,17 +16,19 @@
 .userSection {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .userIcon {
   font-size: 24px;
-  margin-right: 10px;
+  margin-right: 5px;
   color: #f1c40f;
 }
 
 .userName {
   font-size: 18px;
   font-weight: 500;
+  color: white;
 }
 
 .logoutButton {
@@ -38,8 +40,32 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
+  
+  margin-left: 30px;
 }
 
 .logoutButton:hover {
   background-color: #c0392b;
+}
+
+
+.link{ 
+  color: #f39c12; 
+  text-decoration: none;
+  padding: 2px 10px;
+}
+
+.link:hover {
+  background-color: #34495e; 
+  border-radius: 4px;
+  color: #f39c12; 
+  text-decoration: none;
+  padding: 2px 10px;
+}
+
+.activeLink {
+  background-color: #34495e; 
+  border-radius: 4px;
+  color: #f39c12; 
+  padding: 2px 10px;
 }

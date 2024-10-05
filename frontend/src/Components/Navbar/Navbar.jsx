@@ -1,6 +1,7 @@
-import React from 'react';
-import { FaUserCircle } from 'react-icons/fa';
-import Styles from './Navbar.module.css';
+import React from "react";
+import { FaUserCircle } from "react-icons/fa";
+import Styles from "./Navbar.module.css";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const name = localStorage.getItem("name");
@@ -8,7 +9,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("userId");
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
@@ -16,8 +17,19 @@ const Navbar = () => {
       <div className={Styles.logo}></div>
       <div className={Styles.userSection}>
         <FaUserCircle className={Styles.userIcon} />
-        <span className={Styles.userName}>{name}</span>
-        <button className={Styles.logoutButton} onClick={handleLogout}>Logout</button>
+
+        <NavLink
+          to={`/finance/${name}/profile`}
+          className={({ isActive }) =>
+            `${Styles.link} ${isActive ? Styles.activeLink : ""}`
+          }
+        >
+          <span className={Styles.userName}>{name}</span>
+        </NavLink>
+
+        <button className={Styles.logoutButton} onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );
