@@ -7,6 +7,7 @@ import AddExpenses from "./Pages/AddExpenses/AddExpenses";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Layout from "./Layout/Layout";
 import Home from "./Pages/Home/Home";
+import ExpensesHistory from "./Pages/ExpensesHistory/ExpensesHistory";
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="addexpenses" element={<AddExpenses />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="expenses-history" element={<ExpensesHistory />} />
           </Route>
 
         </Routes>

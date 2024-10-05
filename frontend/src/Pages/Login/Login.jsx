@@ -36,6 +36,7 @@ const Login = () => {
       } else {
         toast.success("Login successful!", toastOptions);
         localStorage.setItem("name", res.data.name);
+        localStorage.setItem("userId", res.data._id);
         setTimeout(() => {
           navigate(`/finance/${res.data.name}`);
         }, 1000);

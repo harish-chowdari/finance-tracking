@@ -33,4 +33,30 @@ async function addExpenses(req, res) {
     }
 }
 
-module.exports = { addExpenses };
+
+
+async function getExpenses(req, res) {
+    try { 
+   
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.status(200).json({ userIdRequired: "User ID is required" });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(200).json({ userIdNotFound: "User not found" });
+        }
+
+        return res.status(200).json({ expenses: user.expenses });
+    } catch (error) {
+        console.error("Error getting expenses:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
+
+module.exports = { addExpenses, getExpenses };
