@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
-      type: String,
+      type: String, 
     },
     diseases: [
       {

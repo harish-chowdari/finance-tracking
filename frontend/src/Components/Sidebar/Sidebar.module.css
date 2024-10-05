@@ -39,6 +39,7 @@
   font-size: 18px;
   margin-bottom: 10px;
   transition: background 0.3s ease-in-out;
+  width: 100%;
 }
 
 .link:hover {
@@ -53,4 +54,11 @@
 
 .sidebar a:hover {
   color: #f39c12;
+}
+
+
+.activeLink {
+  background-color: #34495e; 
+  border-radius: 4px;
+  color: #f39c12; 
 }

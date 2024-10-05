@@ -1,174 +1,147 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
-import axios from 'axios';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import Styles from './Dashboard.module.css';
+import ChartDataLabels from 'chartjs-plugin-datalabels'; // Import the ChartDataLabels plugin
+import axios from "../../axios";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import './Dashboard.module.css'; // Import the CSS file
+import Styles from "./Dashboard.module.css";
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register Chart.js components and the data labels plugin
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
-const ExpensesChart = () => {
-    const [expenses, setExpenses] = useState([]);
-    const userId = localStorage.getItem('userId');
-    const tableRef = useRef(null); // Reference for the table
-    const chartRef = useRef(null); // Reference for the chart
+const FinanceTracker = () => {
 
-    // Fetch data from API
-    useEffect(() => {
-        const fetchExpenses = async () => {
-            try {
-                const response = await axios.get(`http://localhost:4003/api/get-expenses/${userId}`);
-                setExpenses(response.data.expenses);
-            } catch (error) {
-                console.error("Error fetching expenses:", error);
-            }
-        };
+    const userId = localStorage.getItem("userId");
 
-        fetchExpenses();
-    }, [userId]);
+  const [entries, setEntries] = useState([]);
+  const contentRef = useRef(); // Reference for PDF generation
 
-    // Function to split expenses into chunks of a specified size
-    const chunkArray = (arr, size) => {
-        return arr.reduce((acc, _, index) => {
-            if (index % size === 0) {
-                acc.push(arr.slice(index, index + size));
-            }
-            return acc;
-        }, []);
+  // Fetch finance data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/get-expenses/${userId}`);
+        setEntries(response.data.expenses); // Assuming the data is an array of finance objects
+      } catch (error) {
+        console.error('Error fetching finance data:', error);
+      }
     };
 
-    // Prepare data for charts
-    const expensesChunks = chunkArray(expenses, 10);
+    fetchData();
+  }, []);
 
-
-
-    const downloadPDF = async () => {
-      const pdf = new jsPDF('p', 'mm', 'a4'); // Create jsPDF object
-
-      // Capture chart
-      if (chartRef.current) {
-          const chartCanvas = await html2canvas(chartRef.current, { scale: 2 }); // Increase scale for better resolution
-          const chartImageData = chartCanvas.toDataURL('image/png');
-          pdf.addImage(chartImageData, 'PNG', 10, 10, 190, (chartCanvas.height * 190) / chartCanvas.width); // Maintain aspect ratio
+  // Group entries by category and calculate the total sum for each category
+  const groupByCategory = (data) => {
+    const categoryTotals = {};
+    
+    data.forEach((entry) => {
+      if (!categoryTotals[entry.category]) {
+        categoryTotals[entry.category] = 0;
       }
+      categoryTotals[entry.category] += entry.amount;
+    });
 
-      // Add a new page for the table
-      pdf.addPage();
-      
-      // Set initial Y position for the table
-      let yPosition = 20; // Start a little lower for the header
-      const itemsPerPage = 20; // Number of items to display per page
-
-      // Create table headers
-      pdf.setFontSize(12);
-      pdf.text("S.No", 10, yPosition);
-      pdf.text("Category", 30, yPosition);
-      pdf.text("Amount", 100, yPosition);
-      pdf.text("Date", 150, yPosition);
-      yPosition += 10; // Move down for the first row
-
-      // Loop through expenses and add to PDF
-      expenses.forEach((expense, index) => {
-          // Check if a new page is needed
-          if (index > 0 && index % itemsPerPage === 0) {
-              pdf.addPage(); // Add a new page for subsequent entries
-              yPosition = 20; // Reset Y position for new page
-              
-              // Re-add the table headers on the new page
-              pdf.setFontSize(12);
-              pdf.text("S.No", 10, yPosition);
-              pdf.text("Category", 30, yPosition);
-              pdf.text("Amount", 100, yPosition);
-              pdf.text("Date", 150, yPosition);
-              yPosition += 10; // Move down for the first row
-          }
-
-          // Add expenses rows with serial number
-          pdf.text((index + 1).toString(), 10, yPosition); // Serial number
-          pdf.text(expense.category, 30, yPosition);
-          pdf.text(expense.amount.toString(), 100, yPosition);
-          pdf.text(expense.date.slice(0, 10), 150, yPosition);
-          yPosition += 10; // Move down for the next row
-      });
-
-      // Save PDF
-      pdf.save('expenses.pdf');
+    // Convert the object to an array for easier rendering
+    return Object.entries(categoryTotals).map(([category, totalAmount]) => ({
+      category,
+      totalAmount,
+    }));
   };
 
+  const groupedEntries = groupByCategory(entries);
 
-    return (
-        <div>
-            <h1>Expenses Chart</h1>
-            {expensesChunks.map((chunk, chunkIndex) => {
-                // Prepare chart data for each chunk
-                const chartData = {
-                    labels: chunk.map(expense => expense.category), // X-axis labels (categories)
-                    datasets: [
-                        {
-                            label: 'Amount ($)',
-                            data: chunk.map(expense => expense.amount), // Y-axis data (amounts)
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                        },
-                    ],
-                };
+  // Create chart data using the grouped categories
+  const createChartData = () => ({
+    labels: groupedEntries.map((entry) => entry.category),
+    datasets: [
+      {
+        label: 'Total Amount ($)',
+        data: groupedEntries.map((entry) => entry.totalAmount),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 2,
+      },
+    ],
+  });
 
-                // Chart options
-                const chartOptions = {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: `Expenses by Category (Chart ${chunkIndex + 1})`,
-                        },
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                        },
-                    },
-                };
+  // Generate chart options
+  const getChartOptions = () => ({
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Total Spend by Category',
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+        margin: 10,
+        formatter: (value) => `$${value.toFixed(2)}`, // Format amount to show on top of bars
+        color: 'black',
+        font: {
+          weight: 'bold',
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+      
+    },
+    elements: {
+    bar: {
+      barThickness: 2, // Set the thickness of the bars (you can adjust this value)
+    },
+  },
+  });
 
-                return (
-                    <div key={chunkIndex}>
-                        <Bar data={chartData} options={chartOptions} />
-                    </div>
-                );
-            })}
+  // Function to generate PDF
+  
 
-            <h1 className={Styles.title}>Expenses History</h1>
-            <table className={Styles.table} ref={tableRef}>
-                <thead className={Styles.thead}>
-                    <tr className={Styles.tr}>
-                        <th className={Styles.th}>S.No</th> {/* Serial Number Header */}
-                        <th className={Styles.th}>Category</th>
-                        <th className={Styles.th}>Amount</th>
-                        <th className={Styles.th}>Date</th>
-                    </tr>
-                </thead>
+  return (
+    <div className="finance-tracker">
+      {/* Both Chart and Finance Summary */}
+      <div ref={contentRef} className="content">
+        <h2>Finance Summary</h2>
+        {entries.length === 0 ? (
+          <p className="loading">Loading data...</p>
+        ) : (
+          <>
+            {/* Render the Bar chart */}
+            <div className={Styles.chartContainer}>
+              <Bar data={createChartData()} options={getChartOptions()} />
+            </div>
 
-                <tbody className={Styles.tbody}>
-                    {expenses.map((expense, index) => ( // Limit to 50 rows
-                        <tr className={Styles.tr} key={expense._id}>
-                            <td className={Styles.td}>{index + 1}</td> {/* Serial Number in Table */}
-                            <td className={Styles.td}>{expense.category}</td>
-                            <td className={Styles.td}>{expense.amount}</td>
-                            <td className={Styles.td}>{expense.date.slice(0, 10)}</td>
-                        </tr>
-                    ))}
-                </tbody>
+            {/* Render Finance Summary */}
+            <h1 className={Styles.title}>Expenses Summary by Category</h1>
+            <table className={Styles.table}>
+              <thead className={Styles.thead}>
+                <tr className={Styles.tr}>
+                  <th className={Styles.th}>Category</th>
+                  <th className={Styles.th}>Total Amount</th>
+                </tr>
+              </thead>
+              <tbody className={Styles.tbody}>
+                {groupedEntries.map((expense, index) => (
+                  <tr className={Styles.tr} key={index}>
+                    <td className={Styles.td}>{expense.category}</td>
+                    <td className={Styles.td}>${expense.totalAmount.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
-
-            {/* Download PDF button */}
-            <button onClick={downloadPDF}>Download as PDF</button>
-        </div>
-    );
+          </>
+        )}
+      </div>
+    </div>
+  );
 };
 
-export default ExpensesChart;
+export default FinanceTracker;

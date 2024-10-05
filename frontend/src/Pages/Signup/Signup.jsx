@@ -6,6 +6,9 @@ import { Flip, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+
+  const userId = localStorage.getItem("userId");
+
   const [signup, setSignup] = useState({
     name: "",
     email: "",
@@ -98,6 +101,7 @@ const Signup = () => {
       else {
         toast.success("Signup successful! Redirecting...");
         localStorage.setItem("name", res.data.name);
+        localStorage.setItem("userId", res.data._id);
         setTimeout(() => {
           navigate(`/finance/${res.data.name}`);
         }, 1000);

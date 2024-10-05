@@ -8,11 +8,12 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import Layout from "./Layout/Layout";
 import Home from "./Pages/Home/Home";
 import ExpensesHistory from "./Pages/ExpensesHistory/ExpensesHistory";
-
+import Download from "./Pages/Download/Download";
+ 
 const App = () => {
 
   
-  return (
+  return ( 
     <div>
       <BrowserRouter>
         <Routes>
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="addexpenses" element={<AddExpenses />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="expenses-history" element={<ExpensesHistory />} />
+            <Route path="download" element={<Download />} />
           </Route>
 
         </Routes>
