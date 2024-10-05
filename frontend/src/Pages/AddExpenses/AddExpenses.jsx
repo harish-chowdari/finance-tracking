@@ -9,7 +9,7 @@ const AddExpenses = () => {
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
 
-  const userId = "66fe6e6d1ac13bb15e0adb5b"; 
+  const userId = localStorage.getItem('userId'); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
