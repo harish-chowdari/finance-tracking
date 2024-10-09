@@ -111,7 +111,7 @@ const FinanceTracker = () => {
       <div ref={contentRef} className="content">
         <h2>Finance Summary</h2>
         {entries.length === 0 ? (
-          <p className="loading">Loading data...</p>
+          <p className="loading">No expenses found.</p>
         ) : (
           <>
             {/* Render the Bar chart */}

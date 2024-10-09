@@ -11,4 +11,4 @@ con.on("error", ()=>{
 
 con.once("open", ()=>{
     console.log("db connected...")
-})   
+})    

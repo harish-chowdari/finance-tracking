@@ -15,8 +15,8 @@
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  max-width: 420px;
-  width: 100%;
+  max-width: 520px;
+  min-width: 350px;
   text-align: center;
   box-sizing: border-box;
   margin: 0 20px;
@@ -29,6 +29,8 @@
   font-size: 28px;
 }
 
+
+
 .input {
   width: 100%;
   padding: 14px;
@@ -38,6 +40,7 @@
   font-size: 15px;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  
 }
 
 .input:focus {
@@ -84,7 +87,7 @@
 
 .colorDiv {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0px;
   margin-bottom: 20px;
 }

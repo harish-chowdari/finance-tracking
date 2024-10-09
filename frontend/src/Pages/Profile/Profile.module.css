@@ -31,6 +31,27 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.input{
+    width: 95%;
+    padding: 10px;
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    transition: border 0.3s; 
+    margin-right: 20px;
+
+}
+
+.input:focus {
+    border: 1px solid #4a90e2; 
+    outline: none;
+}
+
+.edit{
+    margin-top: 20px;
+}
+
 .infoContainer {
     display: flex;
     flex-direction: column;
@@ -64,12 +85,36 @@
     transition: border 0.3s; 
 }
 
-.value:hover {
-    border: 1px solid #4a90e2; 
-}
+
 
 .loading {
     text-align: center;
     font-size: 20px;
     color: #666;
+}
+
+
+.delete{
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete:hover {
+    background-color: #d32f2f;
+}
+
+.delInfoItem{
+    
+    padding: 0px 10px;
+    transition: background-color 0.3s; 
+}
+
+.delInfoItem h3{
+    margin: 0px;
+    margin-bottom: 10px;
 }

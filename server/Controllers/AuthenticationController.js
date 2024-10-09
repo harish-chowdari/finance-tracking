@@ -80,8 +80,79 @@ async function Login(req, res) {
 }
 
 
+const deleteAcc = async (req, res) => {
+
+  try {
+
+    const { userId } = req.params;
+
+    if(!userId)
+    {
+      return res.status(200).json({ userIdRequired: "User ID is required" });
+    }
+
+    const user = await Schema.findByIdAndDelete(userId);
+
+    if(!user)
+    {
+      return res.status(200).json({ userIdNotFound: "User not found" });
+    }
+
+    return res.status(200).json({ deleted: "Account deleted successfully" });
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+
+  
+
+}
+
+
+
+// edit account
+const editAcc = async (req, res) => {
+
+  const { userId } = req.params;
+
+  const { name } = req.body;
+
+  try{
+    if(!userId)
+      {
+        return res.status(200).json({ userIdRequired: "User ID is required" });
+      }
+    
+      const user = await Schema.findById(userId);
+    
+      if(!user)
+      {
+        return res.status(200).json({ userIdNotFound: "User not found" });
+      }
+    
+      user.name = name;
+    
+      await user.save();
+    
+      return res.status(200).json({ updated: "Account updated successfully" });
+    
+  }
+
+  catch(error)
+  {
+    console.log(error);
+  }
+
+}
+
+
 
 module.exports = {
   SigUp,
-  Login
+  Login,
+  deleteAcc,
+  editAcc
 };
