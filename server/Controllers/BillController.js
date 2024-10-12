@@ -45,7 +45,7 @@ const addBill = async (req, res) => {
 const getBill = async (req, res) => {
     try {
 
-        const userId = req.params;
+        const {userId} = req.params;
 
         if (!userId) {
             return res.status(200).json({ userIdRequired: "User ID is required" });
@@ -61,6 +61,7 @@ const getBill = async (req, res) => {
 
     } catch (error) {
         console.error("Error getting bills:", error);
+
     }
 }
 

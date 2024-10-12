@@ -11,6 +11,8 @@
   position: fixed;
   overflow-y: auto; 
   transition: width 0.3s;
+  box-shadow:  3px 4px 8px rgba(0, 0, 0, 0.6);
+  margin-top: 45px;
 }
 
 .financeSection {

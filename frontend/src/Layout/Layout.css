@@ -20,6 +20,7 @@
   }
   
   .content-area {
+    margin-top: 40px;
     flex: 1; /* Content area takes up remaining space */
     padding: 20px;
     background-color: #f9f9f9; /* Optional: background color */
