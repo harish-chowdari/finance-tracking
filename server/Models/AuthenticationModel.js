@@ -33,7 +33,19 @@ const UserSchema = new mongoose.Schema(
         date: { type: Date },
       },
     ],
+
+    bills: [
+      {
+        billNumber: { type: String },
+        category: { type: String },
+        amount: { type: Number },
+        toBePaidOn: { type: Date },
+      },
+    ],
+    
   },
+
+ 
   { timestamps: true }
 );
 

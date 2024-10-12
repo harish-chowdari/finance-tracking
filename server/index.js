@@ -20,6 +20,9 @@ app.use("/api", OtpRouter)
 const AddExpenses = require("./Routes/AddexpensesRoutes")
 app.use("/api", AddExpenses)
 
+const BillRoutes = require("./Routes/BillRoutes")
+app.use("/api", BillRoutes)
+
 
 
 const port = process.env.PORT || 3000

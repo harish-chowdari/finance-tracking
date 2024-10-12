@@ -10,6 +10,8 @@ import Home from "./Pages/Home/Home";
 import ExpensesHistory from "./Pages/ExpensesHistory/ExpensesHistory";
 import Download from "./Pages/Download/Download";
 import Profile from "./Pages/Profile/Profile";
+import Addbill from "./Pages/Addbill/Addbill";
+import ViewBill from "./Pages/ViewBill/ViewBill";
  
 const App = () => {
 
@@ -29,6 +31,8 @@ const App = () => {
             <Route path="expenses-history" element={<ExpensesHistory />} />
             <Route path="download" element={<Download />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="add-bill" element={<Addbill />} />
+            <Route path="view-bill" element={<ViewBill />} />
           </Route>
 
         </Routes>
