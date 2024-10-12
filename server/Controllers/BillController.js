@@ -1,5 +1,7 @@
 const Users = require("../Models/AuthenticationModel");
-
+const Emails = require("../Models/EmailsModel");
+const nodemailer = require('nodemailer');
+const cron = require("node-cron");
 
 
 const addBill = async (req, res) => {
@@ -67,7 +69,111 @@ const getBill = async (req, res) => {
 
 
 
+
+async function sendReminderEmails() {
+    try {
+        const users = await Users.find();
+
+        const currentDate = new Date();
+        const startOfDay = new Date(currentDate.setHours(0, 0, 0, 0));
+        const endOfDay = new Date(currentDate.setHours(23, 59, 59, 999));
+
+        for (const user of users) {
+
+            for (const bill of user.bills) {
+                const dueDate = new Date(bill.toBePaidOn);
+
+
+                const daysDifference = Math.ceil((dueDate - currentDate) / (1000 * 60 * 60 * 24));
+
+
+                if (daysDifference === 10 || daysDifference === 0) {
+
+                    const emailRecord = await Emails.findOne({
+                        billId: bill._id,
+                        userId: user._id,
+                        today: {
+                            $gte: startOfDay,
+                            $lte: endOfDay
+                        },
+                    });
+
+
+                    
+
+
+                    if (!emailRecord) {
+
+                        let transporter = nodemailer.createTransport({
+                            service: "gmail",
+                            auth: {
+                                user: process.env.EMAIL_USER, 
+                                pass: process.env.EMAIL_PASSWORD, 
+                            },
+                        });
+
+                        let subject, text;
+
+                        if (daysDifference === 10) {
+
+                            subject = "Bill Payment Reminder (10 days left)";
+                            text = `Dear ${user.name}, this is a reminder to pay your bill number ${bill.billNumber} amounting to $${bill.amount}. You have 10 days to pay before the due date: ${bill.toBePaidOn}.`;
+                        } else if (daysDifference === 0) {
+
+                            subject = "Bill Payment Reminder (Due Today)";
+                            text = `Dear ${user.name}, this is a final reminder to pay your bill number ${bill.billNumber} amounting to $${bill.amount}. The bill is due today: ${bill.toBePaidOn}. Please make the payment to avoid any penalties.`;
+                        }
+
+                        let mailOptions = {
+                            from: process.env.EMAIL_USER,
+                            to: user.email,
+                            subject: subject,
+                            text: text,
+                        };
+
+                        transporter.sendMail(mailOptions, async function (error, info) {
+                            if (error) {
+                                console.error(`Failed to send email to ${user.email}:`, error);
+                            } else {
+
+                                const newEmail = new Emails({
+                                    billId: bill._id,
+                                    userId: user._id,
+                                    today: currentDate, 
+                                });
+
+                                await newEmail.save();
+                                console.log(`Reminder email sent to ${user.email} for bill ${bill.billNumber}`);
+                            }
+                        });
+                    } else {
+                        console.log(`Reminder already sent for bill ${bill.billNumber} of user ${user.email}`);
+                    }
+                }
+            }
+        }
+
+        return { message: "Email processing completed" };
+
+    } catch (error) {
+        console.error("Error processing reminder emails:", error);
+    }
+}
+
+
+
+
+
+cron.schedule("1 * * * * *", async () => {
+    console.log("Running daily email reminder check...");
+    await sendReminderEmails();
+});
+
+
+
+
 module.exports = {
     addBill,
-    getBill
+    getBill,
+    sendReminderEmails
 }
