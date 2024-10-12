@@ -2,12 +2,31 @@ import React, { useState, useEffect } from "react";
 import axios from "../../axios";
 import Styles from "./ExpensesHistory.module.css";
 
+import { useColour } from "../../Context/UseContext";
+
 const ExpensesHistory = () => {
   const userId = localStorage.getItem("userId");
   const [ExpensesHistory, setExpensesHistory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const disease = localStorage.getItem("disease");
+
+  const { tritanopia, protanopia, deuteranopia, monochromacy } = useColour();
+  let colorsToUse;
+
+  if (disease === "protanopia") {
+    colorsToUse = protanopia.use;
+  } else if (disease === "tritanopia") {
+    colorsToUse = tritanopia.use;
+  } else if (disease === "deuteranopia") {
+    colorsToUse = deuteranopia.use;
+  } else if (disease === "monochromacy") {
+    colorsToUse = monochromacy.use;
+  } else {
+    colorsToUse = ["#000000"];
+  }
 
   useEffect(() => {
     const getExpensesHistory = async () => {
@@ -59,7 +78,7 @@ const ExpensesHistory = () => {
 
       <h1 className={Styles.title}>Expenses History</h1>
       <table className={Styles.table}>
-        <thead className={Styles.thead}>
+        <thead style={{ backgroundColor: colorsToUse[3] }} className={Styles.thead}>
           <tr className={Styles.tr}>
           <th className={Styles.th}>Sl.No</th>
             <th className={Styles.th}>Category</th>
@@ -72,7 +91,7 @@ const ExpensesHistory = () => {
           {filteredExpenses.map((expense, index) => (
             <tr className={Styles.tr} key={expense._id}>
               <td className={Styles.td}>{index + 1}</td>
-              <td className={Styles.td}>{expense.category}</td>
+              <td style={{ color: colorsToUse[3] }} className={Styles.td}>{expense.category}</td>
               <td className={Styles.td}>{expense.amount}</td>
               <td className={Styles.td}>{expense.date.slice(0, 10)}</td>
             </tr>

@@ -13,6 +13,7 @@ import {
 } from "chart.js";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { useColour } from "../../Context/UseContext";
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +31,23 @@ const Download = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const chartRef = React.createRef();
+
+  const disease = localStorage.getItem("disease");
+
+  const { tritanopia, protanopia, deuteranopia, monochromacy } = useColour();
+  let colorsToUse;
+
+  if (disease === "protanopia") {
+    colorsToUse = protanopia.use;
+  } else if (disease === "tritanopia") {
+    colorsToUse = tritanopia.use;
+  } else if (disease === "deuteranopia") {
+    colorsToUse = deuteranopia.use;
+  } else if (disease === "monochromacy") {
+    colorsToUse = monochromacy.use;
+  } else {
+    colorsToUse = ["#000000"];
+  }
 
   useEffect(() => {
     const getExpensesHistory = async () => {
@@ -54,7 +72,6 @@ const Download = () => {
       )
     : ExpensesHistory;
 
-  // Aggregate expenses by category
   const aggregatedExpenses = filteredExpenses.reduce((acc, expense) => {
     const found = acc.find((item) => item.category === expense.category);
     if (found) {
@@ -68,10 +85,8 @@ const Download = () => {
   const downloadPDF = async () => {
     const doc = new jsPDF();
 
-    // Title
     doc.text("Expenses Summary for " + selectedDate, 14, 16);
 
-    // Create a table for filtered expenses
     const tableData = filteredExpenses.map((expense, index) => [
       index + 1,
       expense.category,
@@ -85,7 +100,7 @@ const Download = () => {
       startY: 30,
     });
 
-    // Convert chart to image
+
     if (chartRef.current) {
       const chartCanvas = chartRef.current.canvas;
       const chartImage = chartCanvas.toDataURL("image/png");
@@ -99,7 +114,6 @@ const Download = () => {
       );
     }
 
-    // Create a table for all expenses
     const allTableData = ExpensesHistory.map((expense, index) => [
       index + 1,
       expense.category,
@@ -107,9 +121,7 @@ const Download = () => {
       expense.date.slice(0, 10),
     ]);
 
-    // Add a new page for all expenses table if needed
     doc.addPage();
-
     doc.text("All Expenses History", 14, 16);
 
     doc.autoTable({
@@ -125,15 +137,14 @@ const Download = () => {
     return <div>Loading...</div>;
   }
 
-  // Prepare data for the chart
   const chartData = {
     labels: aggregatedExpenses.map((expense) => expense.category),
     datasets: [
       {
         label: "Amount",
         data: aggregatedExpenses.map((expense) => expense.amount),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: colorsToUse[3],
+        borderColor: colorsToUse[3],
         borderWidth: 1,
       },
     ],
@@ -160,17 +171,17 @@ const Download = () => {
   return (
     <div className={Styles.container}>
       <div className={Styles.selectContainer}>
-        <label className={Styles.label}>Select Date:</label>
+        <label className={Styles.label}>Select a date to download PDF:</label>
         <div className={Styles.inputContainer}>
-        <input
-          className={Styles.input}
-          type="date"
-          onChange={(e) => setSelectedDate(e.target.value)} // Set the selected date
-        />
+          <input
+            className={Styles.input}
+            type="date"
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
 
-        <button className={Styles.downloadButton} onClick={downloadPDF}>
-          Download PDF
-        </button>
+          <button style={{ backgroundColor: colorsToUse[1] }} className={Styles.downloadButton} onClick={downloadPDF}>
+            Download PDF
+          </button>
         </div>
       </div>
 
@@ -182,9 +193,11 @@ const Download = () => {
         </div>
       )}
 
-      {selectedDate ? <h1 className={Styles.title}>Expenses Summary</h1> : <h1 className={Styles.title}>All Expenses</h1>
-      }<table className={Styles.table}>
-        <thead className={Styles.thead}>
+      <h1 className={Styles.title}>
+        {selectedDate ? "Expenses Summary" : "All Expenses"}
+      </h1>
+      <table className={Styles.table}>
+        <thead style={{ backgroundColor: colorsToUse[3] }} className={Styles.thead}>
           <tr className={Styles.tr}>
             <th className={Styles.th}>Sl.No</th>
             <th className={Styles.th}>Category</th>
@@ -197,7 +210,7 @@ const Download = () => {
           {filteredExpenses.map((expense, index) => (
             <tr className={Styles.tr} key={expense._id}>
               <td className={Styles.td}>{index + 1}</td>
-              <td className={Styles.td}>{expense.category}</td>
+              <td style={{ color: colorsToUse[3] }} className={Styles.td}>{expense.category}</td>
               <td className={Styles.td}>{expense.amount}</td>
               <td className={Styles.td}>{expense.date.slice(0, 10)}</td>
             </tr>

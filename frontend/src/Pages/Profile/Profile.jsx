@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "../../axios";
 import styles from "./Profile.module.css";
 import { useNavigate } from "react-router-dom";
+import { useColour } from "../../Context/UseContext";
 
 const Profile = () => {
   const userId = localStorage.getItem("userId");
@@ -10,6 +11,23 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [edit, setEdit] = useState(true);
+
+  const disease = localStorage.getItem("disease");
+
+  const { tritanopia, protanopia, deuteranopia, monochromacy } = useColour();
+  let colorsToUse;
+
+  if (disease === "protanopia") {
+    colorsToUse = protanopia.use;
+  } else if (disease === "tritanopia") {
+    colorsToUse = tritanopia.use;
+  } else if (disease === "deuteranopia") {
+    colorsToUse = deuteranopia.use;
+  } else if (disease === "monochromacy") {
+    colorsToUse = monochromacy.use;
+  } else {
+    colorsToUse = ["#000000"];
+  }
 
   const editAcc = async () => {
     try {
@@ -71,7 +89,7 @@ const Profile = () => {
           <div className={styles.infoItem}>
             <h3 className={styles.label}>User Name:</h3>
             <p className={styles.value}>@{user.userData.name}</p>
-            <button onClick={() => setEdit(!edit)} className={styles.ed}>
+            <button style={{ backgroundColor: colorsToUse[1] }} onClick={() => setEdit(!edit)} className={styles.edit}>
               Edit Name
             </button>
           </div>
@@ -86,7 +104,7 @@ const Profile = () => {
               value={updateName || ""}
               onChange={handleChange}
             />
-            <button onClick={editAcc} className={styles.edit}>
+            <button style={{ backgroundColor: colorsToUse[1] }} onClick={editAcc} className={styles.edit}>
               Done
             </button>
           </div>
@@ -102,7 +120,7 @@ const Profile = () => {
         </div>
         <div className={styles.delInfoItem}>
           <h3>Delete Account</h3>
-          <button className={styles.delete} onClick={deleteAcc}>Delete</button>
+          <button style={{ backgroundColor: colorsToUse[3] }} className={styles.delete} onClick={deleteAcc}>Delete</button>
         </div>
       </div>
     </div>

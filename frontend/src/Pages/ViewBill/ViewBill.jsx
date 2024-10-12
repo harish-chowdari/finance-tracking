@@ -4,12 +4,28 @@ import axios from "../../axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
+import { useColour } from "../../Context/UseContext";
 
 const ViewBill = () => {
   const [bill, setBill] = useState([]);
 
   const userId = localStorage.getItem("userId");
 
+  const { tritanopia, protanopia, deuteranopia, monochromacy } = useColour();
+  let colorsToUse;
+
+  if (localStorage.getItem("disease") === "protanopia") {
+    colorsToUse = protanopia.use;
+  } else if (localStorage.getItem("disease") === "tritanopia") {
+    colorsToUse = tritanopia.use;
+  } else if (localStorage.getItem("disease") === "deuteranopia") {
+    colorsToUse = deuteranopia.use;
+  } else if (localStorage.getItem("disease") === "monochromacy") {
+    colorsToUse = monochromacy.use;
+  } else {
+    colorsToUse = ["#000000"];
+  }
+  
   const getBill = async () => {
     try {
       const response = await axios.get(`/get-bill/${userId}`);
@@ -45,8 +61,8 @@ const ViewBill = () => {
       {
         <div className={styles.tableContainer}>
           <table className={styles.table}>
-            <thead className={styles.tableHead}>
-              <tr className={styles.tableRow}>
+            <thead style={{ backgroundColor: colorsToUse[3] }} className={styles.tableHead}>
+              <tr  className={styles.tableRow}>
                 <th className={styles.tableHeading}>Bill Number</th>
                 <th className={styles.tableHeading}>Amount</th>
                 <th className={styles.tableHeading}>Category</th>

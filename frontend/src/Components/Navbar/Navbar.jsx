@@ -38,7 +38,7 @@ const Navbar = () => {
     <div className={Styles.navbar} style={navbarStyle}>
       <div className={Styles.logo}></div>
       <div className={Styles.userSection}>
-        <FaUserCircle className={Styles.userIcon} />
+        <FaUserCircle style={{ color: "white" }} className={Styles.userIcon} />
 
         <NavLink
           to={`/finance/${name}/profile`}
@@ -50,7 +50,7 @@ const Navbar = () => {
           <span className={Styles.userName}>{name}</span>
         </NavLink>
 
-        <button className={Styles.logoutButton} onClick={handleLogout} style={{ color: "#FFFFFF" }}>
+        <button style={{ backgroundColor: colorsToUse[1] }} className={Styles.logoutButton} onClick={handleLogout} >
           Logout
         </button>
       </div>

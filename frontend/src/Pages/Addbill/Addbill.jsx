@@ -15,10 +15,22 @@ const Addbill = () => {
 
   const disease = localStorage.getItem("disease");
 
-  const {tritanopia, protanopia, deuteranopia, monochromacy} = useColour();
+  const { tritanopia, protanopia, deuteranopia, monochromacy } = useColour();
+  let colorsToUse;
 
-  console.log(tritanopia, protanopia, deuteranopia, monochromacy);
- 
+  if (disease === "protanopia") {
+    colorsToUse = protanopia.use;
+  } else if (disease === "tritanopia") {
+    colorsToUse = tritanopia.use;
+  } else if (disease === "deuteranopia") {
+    colorsToUse = deuteranopia.use;
+  } else if (disease === "monochromacy") {
+    colorsToUse = monochromacy.use;
+  } else {
+    colorsToUse = ["#000000"];
+  }
+
+  
   const userId = localStorage.getItem("userId");
 
   const addBill = async (req, res) => {
@@ -101,7 +113,7 @@ const Addbill = () => {
           </div>
 
           <div className={Styles.formGroup}>
-            <button onClick={handleSubmit}>Add Bill</button>
+            <button style={{ backgroundColor: colorsToUse[1] }} onClick={handleSubmit}>Add Bill</button>
           </div>
         </div>
       </form>

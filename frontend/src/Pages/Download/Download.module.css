@@ -13,6 +13,16 @@
     margin-bottom: 1.5rem;
   }
 
+  .downloadButton{
+    color: rgb(90, 87, 87);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
   .label {
     font-size: 1rem;
     color: #555;

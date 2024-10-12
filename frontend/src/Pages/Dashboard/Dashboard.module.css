@@ -35,13 +35,13 @@
   }
   
   .thead {
-    background-color: #4caf50;
     color: white;
   }
   
   .tr {
     text-align: left;
     border-bottom: 1px solid #ddd;
+    
   }
   
   .th, .td {

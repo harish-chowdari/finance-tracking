@@ -8,23 +8,23 @@ export const useColour = () => {
 
 const ColourProvider = (props) => {
   const [protanopia, setProtanopia] = useState({
-    use: ["red", "green", "brown", "orange"],
-    avoid: ["blue", "yellow", "purple", "gray"],
+    avoid: ["red", "green", "brown", "orange"],
+    use: ["blue", "yellow", "purple", "gray"],
   });
 
   const [deuteranopia, setDeuteranopia] = useState({
-    use: ["red", "green", "brown", "orange"],
-    avoid: ["blue", "yellow", "purple", "gray"],
+    avoid: ["red", "green", "brown", "orange"],
+    use: ["blue", "yellow", "purple", "gray"],
   });
 
   const [tritanopia, setTritanopia] = useState({
-    use: ["blue", "yellow", "green"],
-    avoid: ["red", "pink", "gray", "black"],
+    avoid: ["green", "blue", "yellow", "yellow"],
+    use: ["red", "pink", "gray", "black"],
   });
 
   const [monochromacy, setMonochromacy] = useState({
-    use: ["all colors"],
-    avoid: ["black", "white", "gray"],
+    avoid: ["all colors"],
+    use: ["black", "gray", "gray", "black"],
   });
 
   const [colour, setColour] = useState("red");

@@ -3,13 +3,33 @@ import Styles from './AddExpenses.module.css';
 import axios from '../../axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useColour } from '../../Context/UseContext';
 
 const AddExpenses = () => {
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
 
-  const userId = localStorage.getItem('userId'); 
+  const userId = localStorage.getItem('userId');
+  
+  const disease = localStorage.getItem("disease");
+
+  const { tritanopia, protanopia, deuteranopia, monochromacy } = useColour();
+  let colorsToUse;
+
+  if (disease === "protanopia") {
+    colorsToUse = protanopia.use;
+  } else if (disease === "tritanopia") {
+    colorsToUse = tritanopia.use;
+  } else if (disease === "deuteranopia") {
+    colorsToUse = deuteranopia.use;
+  } else if (disease === "monochromacy") {
+    colorsToUse = monochromacy.use;
+  } else {
+    colorsToUse = ["#000000"];
+  }
+
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,7 +110,7 @@ const AddExpenses = () => {
           />
         </div>
 
-        <button className={Styles.button} type="submit">Add</button>
+        <button style={{ backgroundColor: colorsToUse[1] }} className={Styles.button} type="submit">Add</button>
       </form>
       
       <ToastContainer position="top-center" />

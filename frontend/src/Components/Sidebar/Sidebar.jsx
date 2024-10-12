@@ -45,7 +45,7 @@ const Sidebar = () => {
   return (
     <div className={Styles.sidebar} style={sidebarStyle}>
       <div className={Styles.financeSection} style={{ color: "#FFFFFF" }}>
-        <FaDollarSign className={Styles.financeIcon} />
+        <FaDollarSign style={{ color: "#FFFFFF" }} className={Styles.financeIcon} />
         <h2 className={Styles.financeText}>Finance</h2>
       </div>
 
