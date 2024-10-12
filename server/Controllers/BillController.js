@@ -166,7 +166,7 @@ async function sendReminderEmails() {
 
 
 
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("2 1 * * * *", async () => {
     console.log("Running daily email reminder check...");
     await sendReminderEmails();
 });

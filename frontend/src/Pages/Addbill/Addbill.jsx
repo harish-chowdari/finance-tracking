@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Styles from "./Addbill.module.css";
 import axios from "../../axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useColour } from "../../Context/UseContext";
 
 const Addbill = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,12 @@ const Addbill = () => {
     category: "",
     toBePaidOn: "",
   });
+
+  const disease = localStorage.getItem("disease");
+
+  const {tritanopia, protanopia, deuteranopia, monochromacy} = useColour();
+
+  console.log(tritanopia, protanopia, deuteranopia, monochromacy);
  
   const userId = localStorage.getItem("userId");
 
@@ -25,7 +32,6 @@ const Addbill = () => {
       }
 
       console.log(res.data);
-      console.log(formData);
     } catch (error) {
       console.log(error);
     }

@@ -6,7 +6,6 @@ import { Flip, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
-
   const userId = localStorage.getItem("userId");
 
   const [signup, setSignup] = useState({
@@ -17,8 +16,8 @@ const Signup = () => {
     diseases: [],
   });
 
-  const [avoid, setAvoid] = useState([]); 
-  const [use, setUse] = useState([]); 
+  const [avoid, setAvoid] = useState([]);
+  const [use, setUse] = useState([]);
   const navigate = useNavigate();
 
   const optionNumbers = [
@@ -92,16 +91,15 @@ const Signup = () => {
 
       if (res.data.EnterAllDetails) {
         toast.error(res.data.EnterAllDetails, toastdiseases);
-        return
+        return;
       } else if (res.data.AlreadyExist) {
         toast.error(res.data.AlreadyExist, toastdiseases);
-        return
-      }
-      
-      else {
+        return;
+      } else {
         toast.success("Signup successful! Redirecting...");
         localStorage.setItem("name", res.data.name);
         localStorage.setItem("userId", res.data._id);
+        localStorage.setItem("disease", res.data.diseases[0].disease);
         setTimeout(() => {
           navigate(`/finance/${res.data.name}`);
         }, 1000);
