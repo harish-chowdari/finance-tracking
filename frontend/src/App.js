@@ -12,6 +12,7 @@ import Download from "./Pages/Download/Download";
 import Profile from "./Pages/Profile/Profile";
 import Addbill from "./Pages/Addbill/Addbill";
 import ViewBill from "./Pages/ViewBill/ViewBill";
+import EditBill from "./Pages/EditBill/EditBill";
  
 const App = () => {
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="profile" element={<Profile />} />
             <Route path="add-bill" element={<Addbill />} />
             <Route path="view-bill" element={<ViewBill />} />
+            <Route path="edit-bill/:billId" element={<EditBill />} />
           </Route>
 
         </Routes>

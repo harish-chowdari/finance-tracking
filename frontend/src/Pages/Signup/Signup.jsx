@@ -13,7 +13,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    diseases: [],
+    diseases: [], // Keep it as an array
   });
 
   const [avoid, setAvoid] = useState([]);
@@ -31,37 +31,26 @@ const Signup = () => {
     setSignup({ ...signup, [e.target.name]: e.target.value });
   };
 
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-
-    let newDiseases = [...signup.diseases];
-
-    if (checked) {
-      newDiseases = [...newDiseases, value];
-    } else {
-      newDiseases = newDiseases.filter((option) => option !== value);
-    }
+  const handleRadioChange = (e) => {
+    const value = e.target.value;
 
     setSignup((prevState) => ({
       ...prevState,
-      diseases: newDiseases,
+      diseases: [value], // Set selected disease as an array
     }));
 
     let newAvoid = [];
     let newUse = [];
 
-    if (
-      newDiseases.includes("deuteranopia") ||
-      newDiseases.includes("protanopia")
-    ) {
+    if (value === "deuteranopia" || value === "protanopia") {
       newAvoid = ["red", "green", "brown", "orange"];
       newUse = ["blue", "yellow", "purple", "gray"];
     }
-    if (newDiseases.includes("tritanopia")) {
+    if (value === "tritanopia") {
       newAvoid = ["blue", "yellow", "green"];
       newUse = ["red", "pink", "gray", "black"];
     }
-    if (newDiseases.includes("monochromacy")) {
+    if (value === "monochromacy") {
       newAvoid = ["all colors"];
       newUse = ["black", "white", "gray"];
     }
@@ -99,7 +88,7 @@ const Signup = () => {
         toast.success("Signup successful! Redirecting...");
         localStorage.setItem("name", res.data.name);
         localStorage.setItem("userId", res.data._id);
-        localStorage.setItem("disease", res.data.diseases[0].disease);
+        localStorage.setItem("disease", res.data.diseases[0]?.disease);
         setTimeout(() => {
           navigate(`/finance/${res.data.name}`);
         }, 1000);
@@ -158,16 +147,16 @@ const Signup = () => {
         </div>
 
         <div>
-          <h4 className={styles.colorHeading}>Select diseases</h4>
+          <h4 className={styles.colorHeading}>Select a disease</h4>
           <div className={styles.colorDiv}>
             {optionNumbers.map((option) => (
-              <label key={option} className={styles.checkboxLabel}>
+              <label key={option} className={styles.radioLabel}>
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="diseases"
                   value={option}
-                  onChange={handleCheckboxChange}
-                  checked={signup.diseases.includes(option)}
+                  onChange={handleRadioChange}
+                  checked={signup.diseases.includes(option)} // Check if the option is selected
                 />
                 <p className={styles.color}>{option}</p>
               </label>

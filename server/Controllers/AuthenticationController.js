@@ -134,6 +134,30 @@ const editAcc = async (req, res) => {
       }
     
       user.name = name;
+
+      // edit diseases
+      user.diseases.forEach((disease) => {
+        let avoid = [], use = [];
+ 
+        if (disease.disease === "deuteranopia") {
+          avoid = ["red", "green", "brown", "orange"];
+          use = ["blue", "yellow", "purple", "gray"];
+        } else if (disease.disease === "protanopia") {
+          avoid = ["red", "green", "brown", "orange"];
+          use = ["blue", "yellow", "purple", "gray"];
+        }
+    
+        else if (disease.disease === "tritanopia") {
+          avoid = ["blue", "yellow", "green"];
+          use = ["red", "pink", "gray", "black"];
+        } else if (disease.disease === "monochromacy") {
+          avoid = ["all colors"];
+          use = ["black", "white", "gray"];
+        }
+    
+        disease.avoid = avoid;
+        disease.use = use;
+      });
     
       await user.save();
     

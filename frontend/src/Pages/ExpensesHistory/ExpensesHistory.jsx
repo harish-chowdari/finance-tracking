@@ -53,6 +53,11 @@ const ExpensesHistory = () => {
     return <div>Loading...</div>;
   }
 
+  const totalAmount = filteredExpenses.reduce(
+    (acc, expense) => acc + expense.amount,
+    0
+  );
+
   return (
     <div className={Styles.container}>
       <div className={Styles.selectContainer}>
@@ -78,9 +83,12 @@ const ExpensesHistory = () => {
 
       <h1 className={Styles.title}>Expenses History</h1>
       <table className={Styles.table}>
-        <thead style={{ backgroundColor: colorsToUse[3] }} className={Styles.thead}>
+        <thead
+          style={{ backgroundColor: colorsToUse[3] }}
+          className={Styles.thead}
+        >
           <tr className={Styles.tr}>
-          <th className={Styles.th}>Sl.No</th>
+            <th className={Styles.th}>Sl.No</th>
             <th className={Styles.th}>Category</th>
             <th className={Styles.th}>Amount</th>
             <th className={Styles.th}>Date</th>
@@ -91,11 +99,20 @@ const ExpensesHistory = () => {
           {filteredExpenses.map((expense, index) => (
             <tr className={Styles.tr} key={expense._id}>
               <td className={Styles.td}>{index + 1}</td>
-              <td style={{ color: colorsToUse[3] }} className={Styles.td}>{expense.category}</td>
+              <td style={{ color: colorsToUse[3] }} className={Styles.td}>
+                {expense.category}
+              </td>
               <td className={Styles.td}>{expense.amount}</td>
               <td className={Styles.td}>{expense.date.slice(0, 10)}</td>
             </tr>
           ))}
+
+          <tr className={Styles.tr}>
+            <td className={Styles.td}></td>
+            <td className={Styles.total}>Total</td>
+            <td className={Styles.total}>{totalAmount}</td>
+            <td className={Styles.td}></td>
+          </tr>
           {filteredExpenses.length === 0 && (
             <tr className={Styles.tr}>
               <td colSpan="3" className={Styles.td}>
