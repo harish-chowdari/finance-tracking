@@ -134,6 +134,7 @@ const editAcc = async (req, res) => {
       }
     
       user.name = name;
+      user.expensesLimit = req.body.expensesLimit;
 
       // edit diseases
       user.diseases.forEach((disease) => {

@@ -8,6 +8,7 @@ const Profile = () => {
   const userId = localStorage.getItem("userId");
   const [user, setUser] = useState(null);
   const [updateName, setUpdateName] = useState("");
+  const [updateExpensesLimit, setUpdateExpensesLimit] = useState(0);
   const [selectedDisease, setSelectedDisease] = useState("");
   const navigate = useNavigate();
 
@@ -33,10 +34,17 @@ const Profile = () => {
       const response = await axios.put(`/update-account/${userId}`, {
         name: updateName,
         disease: selectedDisease,
+        expensesLimit: updateExpensesLimit,
         userId,
       });
       alert(response.data.updated);
-      setEdit(!edit);
+      if(response.data.updated)
+      {
+        const res = axios.delete(`/delete-mail/${userId}`);
+        console.log(res);
+      }
+
+        setEdit(!edit);
 
       // Update local storage with the selected disease
       localStorage.setItem("disease", selectedDisease);
@@ -73,7 +81,9 @@ const Profile = () => {
         const response = await axios.get(`/user-data/${userId}`);
         setUser(response.data);
         setUpdateName(response.data.userData.name);
+        setUpdateExpensesLimit(response.data.userData.expensesLimit);
         setSelectedDisease(localStorage.getItem("disease") || response.data.userData.disease);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -93,6 +103,10 @@ const Profile = () => {
           <div className={styles.infoItem}>
             <h3 className={styles.label}>User Name:</h3>
             <p className={styles.value}>@{user.userData.name}</p>
+            <div>
+              <h3>Expenses Limit:</h3>
+              <p>{user.userData.expensesLimit}</p>
+            </div>
             <button
               style={{ backgroundColor: colorsToUse[0] }}
               onClick={() => setEdit(!edit)}
@@ -111,6 +125,16 @@ const Profile = () => {
               value={updateName || ""}
               onChange={handleChange}
             />
+            <div>
+              <h3>Expenses Limit:</h3>
+              <input
+                type="number"
+                className={styles.input}
+                name="expensesLimit"
+                value={updateExpensesLimit || ""}
+                onChange={(e) => setUpdateExpensesLimit(e.target.value)}
+              />
+            </div>
             <h3 className={styles.label}>Color Vision Deficiency:</h3>
             <div className={styles.radioGroup}>
               <label>

@@ -13,6 +13,15 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String, 
     },
+    expensesLimit: {
+      type: Number,
+      default: 2000,
+    },
+    currentMonthExpenses: {
+      type: Number,
+      default: 0,
+    },
+    
     diseases: [
       {
         disease: { type: String },
