@@ -3,6 +3,7 @@ import axios from "../../axios";
 import styles from "./Profile.module.css";
 import { useNavigate } from "react-router-dom";
 import { useColour } from "../../Context/UseContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const Profile = () => {
   const userId = localStorage.getItem("userId");
@@ -37,8 +38,12 @@ const Profile = () => {
         expensesLimit: updateExpensesLimit,
         userId,
       });
-      alert(response.data.updated);
-      if(response.data.updated)
+      if(!response.data.updated)
+      {
+        alert("Failed to update account. Please try again later.");
+        return;
+      }
+      if(response.data.expensesLimitUpdated)
       {
         const res = axios.delete(`/delete-mail/${userId}`);
         console.log(res);
@@ -103,10 +108,10 @@ const Profile = () => {
           <div className={styles.infoItem}>
             <h3 className={styles.label}>User Name:</h3>
             <p className={styles.value}>@{user.userData.name}</p>
-            <div>
-              <h3>Expenses Limit:</h3>
-              <p>{user.userData.expensesLimit}</p>
-            </div>
+            
+              <h3 className={styles.label}>Expenses Limit:</h3>
+              <p className={styles.value}>@{user.userData.expensesLimit}</p>
+            
             <button
               style={{ backgroundColor: colorsToUse[0] }}
               onClick={() => setEdit(!edit)}
@@ -200,6 +205,7 @@ const Profile = () => {
           <button style={{ backgroundColor: colorsToUse[3] }} className={styles.delete} onClick={deleteAcc}>Delete</button>
         </div>
       </div>
+      <ToastContainer position="top-center" autoClose={5000} />
     </div>
   );
 };

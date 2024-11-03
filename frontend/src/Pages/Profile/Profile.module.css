@@ -39,6 +39,10 @@
     cursor: pointer;
 }
 
+.infoItem, .label, .value{
+    cursor: not-allowed;
+}
+
 .input{
     width: 95%;
     padding: 10px;
