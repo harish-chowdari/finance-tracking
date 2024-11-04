@@ -136,6 +136,11 @@ const editAcc = async (req, res) => {
       user.name = name;
       user.expensesLimit = req.body.expensesLimit;
 
+      if(req.body.expensesLimit !== user.expensesLimit)
+      {
+        res.status(200).json({ expensesLimitUpdated: "Account updated successfully" });
+      }      
+
       // edit diseases
       user.diseases.forEach((disease) => {
         let avoid = [], use = [];

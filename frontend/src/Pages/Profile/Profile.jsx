@@ -38,15 +38,10 @@ const Profile = () => {
         expensesLimit: updateExpensesLimit,
         userId,
       });
-      if(!response.data.updated)
-      {
-        alert("Failed to update account. Please try again later.");
-        return;
-      }
+      
       if(response.data.expensesLimitUpdated)
       {
         const res = axios.delete(`/delete-mail/${userId}`);
-        console.log(res);
       }
 
         setEdit(!edit);
