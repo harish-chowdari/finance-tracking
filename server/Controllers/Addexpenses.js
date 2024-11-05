@@ -70,7 +70,7 @@ async function sendNotificationEmail(user) {
 }
 
 // Schedule the cron job to check every minute
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("1 * * * * *", async () => {
     console.log("Running cron job to check expense limits...");
 
     try {
